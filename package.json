@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "faker": "^6.6.6",
+    "init": "^0.1.2"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.0.1"
+  }
+}
