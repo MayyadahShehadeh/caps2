@@ -4,23 +4,23 @@
 const events = require('./GlobalEventPool');
 const { faker } = require('@faker-js/faker');
 
-require('./main');
+require('./caps');
 
-setInterval(()=>{
-    let vendorObject =  {
+setInterval(() => {
+    let vendorObject = {
         store: "1-206-flowers",
         orderId: faker.string.uuid(),
         customer: faker.person.fullName(),
         address: faker.location.streetAddress()
     }
-    events.emit('pickup',{vendorObject});
+    events.emit('pickup', { vendorObject });
 
-},5000);
+}, 5000);
 
-events.on('vendordelivered', (payload)=>{
+events.on('vendorThanksDeliveried', (payload) => {
 
     console.log(` VENDOR: Thank you for delivering ${payload.vendorObject.orderId}`);
-    events.emit('delivered',payload );
+    events.emit('delivered', payload);
 })
 
-module.exports=events;
+module.exports = events;
