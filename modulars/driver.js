@@ -1,6 +1,6 @@
 'use strict';
 
-const events = require('./GlobalEventPool');
+const events = require('../GlobalEventPool');
 
 
 require('./caps');
@@ -12,7 +12,7 @@ events.on('driverPickedup', (payload) => {
         events.emit('in-transit', payload);
     }, 1000);
 
-})
+}) 
 
 events.on('driverInTransit', (payload) => {
     setTimeout(() => {

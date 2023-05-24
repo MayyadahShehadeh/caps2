@@ -1,7 +1,7 @@
 'use strict';
 
 
-const events = require('./GlobalEventPool');
+const events = require('../GlobalEventPool');
 const { faker } = require('@faker-js/faker');
 
 require('./caps');
