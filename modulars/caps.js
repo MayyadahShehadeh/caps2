@@ -1,7 +1,7 @@
 'use strict';
 
-const events = require('./GlobalEventPool');
-require('./driver');
+const events = require('../GlobalEventPool');
+require('../driver');
 
 let date = new Date().toString();
 
