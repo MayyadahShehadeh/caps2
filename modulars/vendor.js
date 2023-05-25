@@ -1,10 +1,15 @@
 'use strict';
 
 
-const events = require('../GlobalEventPool');
+// const events = require('../GlobalEventPool');
 const { faker } = require('@faker-js/faker');
 
-require('./caps');
+const io = require('socket.io-client');
+const host ='http://localhost:3000/caps';
+const capsConnection = io.connect(host);
+
+// require('./caps');
+
 
 setInterval(() => {
     let vendorObject = {
@@ -13,14 +18,12 @@ setInterval(() => {
         customer: faker.person.fullName(),
         address: faker.location.streetAddress()
     }
-    events.emit('pickup', { vendorObject });
+    capsConnection.emit('pickup', { vendorObject });
 
 }, 5000);
 
-events.on('vendorThanksDeliveried', (payload) => {
+capsConnection.on('vendorThanksDeliveried', (payload) => {
 
     console.log(` VENDOR: Thank you for delivering ${payload.vendorObject.orderId}`);
-    events.emit('delivered', payload);
+    capsConnection.emit('delivered', payload);
 })
-
-module.exports = events;

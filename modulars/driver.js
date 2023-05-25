@@ -1,29 +1,27 @@
 'use strict';
 
-const events = require('../GlobalEventPool');
+// const events = require('../GlobalEventPool');
 
+const io = require('socket.io-client');
+const host ='http://localhost:3000/caps';
+const capsConnection = io.connect(host);
 
-require('./caps');
-require('./vendor');
+// require('./caps');
+// require('./vendor');
 
-events.on('driverPickedup', (payload) => {
+capsConnection.on('driverPickedup', (payload) => {
     setTimeout(() => {
         console.log(`DRIVER: picked up ${payload.vendorObject.orderId}`);
-        events.emit('in-transit', payload);
+        capsConnection.emit('in-transit', payload);
     }, 1000);
 
 }) 
 
-events.on('driverInTransit', (payload) => {
+capsConnection.on('driverInTransit', (payload) => {
     setTimeout(() => {
         console.log(`DRIVER: delivered up  ${payload.vendorObject.orderId}`);
-        events.emit('vendorThanksDeliveried', payload);
+        // capsConnection.emit('vendorThanksDeliveried', payload);
 
     }, 3000);
 
 })
-
-
-
-
-module.exports = events;
