@@ -1,43 +1,57 @@
 'use strict';
 
-const events = require('../GlobalEventPool');
-require('../driver');
+// const events = require('../GlobalEventPool');
+// require('./driver');
+
+const port = process.env.PORT || 3000;
+const io = require('socket.io')(port);
+const capsSystem = io.of('/caps'); //localhost:3000/caps
+
 
 let date = new Date().toString();
 
-events.on('pickup', (payload) => {
 
+// namespace / segment
+capsSystem.on('connection', (socket) => {
+
+    console.log('CONNECTED to the caps system ', socket.id);
+
+
+    socket.on('pickup', payload => {
     console.log('EVENT', {
         event: 'pickup',
         time: date,
         payload: payload
     }
     );
-    events.emit('driverPickedup', payload);
-});
+    capsSystem.emit('driverPickedup', payload);
+    })
 
 
-events.on('in-transit', (payload) => {
-    console.log('EVENT', {
-        event: 'in-transit',
-        time: date,
-        payload: payload
+    socket.on('in-transit', (payload) => {
+        console.log('EVENT', {
+            event: 'in-transit',
+            time: date,
+            payload: payload
+        });
+        capsSystem.emit('driverInTransit', payload);
+        capsSystem.emit('vendorThanksDeliveried', payload);
+
+        
     });
-    events.emit('driverInTransit', payload);
-});
 
 
-events.on('delivered', (payload) => {
-    console.log('EVENT', {
-        event: 'delivered',
-        time: date,
-        payload: payload
+    socket.on('delivered', (payload) => {
 
-    }
+        console.log('EVENT', {
+            event: 'delivered',
+            time: date,
+            payload: payload
+            
+        }
         , '------------------------');
+        
+    })
+    });
 
-});
-
-
-
-module.exports = events;
+    
