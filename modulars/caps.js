@@ -7,7 +7,6 @@ const port = process.env.PORT || 3000;
 const io = require('socket.io')(port);
 const capsSystem = io.of('/caps'); //localhost:3000/caps
 
-
 let date = new Date().toString();
 
 
